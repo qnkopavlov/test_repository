@@ -17,7 +17,7 @@ systemctl status jenkins
 
 sleep 60
 
-JENKINS_PASS=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
+JENKINS_PASS=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
 
 if [[ ! -d $JENKINS_CLI_DIR ]]; then
     mkdir -p $JENKINS_CLI_DIR
