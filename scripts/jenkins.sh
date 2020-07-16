@@ -32,5 +32,5 @@ for plugin in $JENKINS_PLUGINS; do
 	install-plugin $plugin
 done
 
-echo ":: initial admin password ::"
-echo $JENKINS_PASS
+echo ":: initial admin password ::" >> $OUTPUT_FILE
+echo $JENKINS_PASS >> $OUTPUT_FILE

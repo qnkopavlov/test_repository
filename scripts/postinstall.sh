@@ -2,8 +2,10 @@
 
 source /tmp/provisioning/config.sh
 
-echo -e "Useful information\n\n"
-cat $OUTPUT_FILE
+echo -e "\nUseful information\n\n"
+if [[ -f $OUTPUT_FILE ]]; then
+	cat $OUTPUT_FILE
+fi
 
 echo -e "\n\nCleaning up ..."
 rm -rvf /tmp/provisioning

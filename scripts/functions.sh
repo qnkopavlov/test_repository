@@ -1,4 +1,21 @@
 #!/bin/bash
+function download {
+    url="$1"
+    filename="$2"
+
+    echo "Downloading $url into $filename"
+    wget --no-directories --quiet --output-document $filename $url
+    retval=$?
+
+    if [[ $retval -ne 0 ]]; then
+        echo "Downloading $file from $url has failed"
+        exit $retval
+    fi
+
+    echo "Download finished successfully"
+
+}
+
 function get_binary {
    name=$1
    url=$2
@@ -9,21 +26,7 @@ function get_binary {
        export PATH="${PATH}:${bin_dir}"
    fi
 
-   wget --no-directories --quiet --output-document ${bin_dir}/${name} $url
+   download $url "${bin_dir}/${name}"
    chmod 755 ${bin_dir}/${name}
-   sleep 3
-}
-
-function download {
-    url="$1"
-    filename="$2"
-
-    wget --no-directories --quiet --output-document $filename $url
-    retval=$?
-
-    if [[ $retval -ne 0 ]]; then
-        echo "Downloading $file from $url has failed"
-        exit $retval
-    fi
-
+   sleep 1
 }
