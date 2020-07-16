@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-source /tmp/functions.sh
-source /tmp/config.sh
+source /tmp/provisioning/functions.sh
+source /tmp/provisioning/config.sh
 
 yum -y install $MINIKUBE_DEPENDENCIES
 

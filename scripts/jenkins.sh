@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-source /tmp/functions.sh
-source /tmp/config.sh
+source /tmp/provisioning/functions.sh
+source /tmp/provisioning/config.sh
 
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
