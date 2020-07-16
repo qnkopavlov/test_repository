@@ -1,6 +1,6 @@
 BIN_DIR="/usr/local/bin"
-
 DEPENDENCIES="wget"
+OUTPUT_FILE="/tmp/provisioning/outputs.txt"
 
 MINIKUBE_DOWNLOAD_URL="https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
 MINIKUBE_DEPENDENCIES="libvirt qemu-kvm"

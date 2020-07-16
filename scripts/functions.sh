@@ -9,7 +9,7 @@ function get_binary {
        export PATH="${PATH}:${bin_dir}"
    fi
 
-   curl -Lo ${bin_dir}/${name} $url
+   wget --no-directories --quiet --output-document ${bin_dir}/${name} $url
    chmod 755 ${bin_dir}/${name}
    sleep 3
 }
