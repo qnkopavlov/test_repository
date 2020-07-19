@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 source /tmp/provisioning/config.sh
 
@@ -8,4 +8,4 @@ if [[ -f $OUTPUT_FILE ]]; then
 fi
 
 echo -e "\n\nCleaning up ..."
-rm -rvf /tmp/provisioning
+#rm -rvf /tmp/provisioning
