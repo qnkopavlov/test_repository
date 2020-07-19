@@ -1,0 +1,73 @@
+unclassified:
+  location:
+    url: http://localhost:8080
+
+jenkins:
+  clouds:
+    - kubernetes:
+        name: "advanced-k8s-config"
+        serverUrl: "${MINIKUBE_URL}"
+        skipTlsVerify: true
+        credentialsId: "kubernetes-credentials"
+        namespace: "default"
+        jenkinsUrl: "http://localhost:8080/"
+        jenkinsTunnel: "jenkinsTunnel"
+        containerCapStr: 42
+        maxRequestsPerHostStr: 64
+        retentionTimeout: 5
+        connectTimeout: 10
+        readTimeout: 20
+
+        templates:
+          - name: "test_template"
+            serviceAccount: "serviceAccount"
+            instanceCap: 1234
+            idleMinutes: 0
+            label: "label"
+            volumes:
+              - hostPathVolume:
+                  mountPath: "mountPath"
+                  hostPath: "hostPath"
+
+            containers:
+              - name: "test_container"
+                image: "centos:7"
+                privileged: true
+                alwaysPullImage: true
+                command: "cat"
+                args: "args"
+                workingDir: "workingDir"
+                ttyEnabled: true
+                resourceRequestCpu: "resourceRequestCpu"
+                resourceRequestMemory: "resourceRequestMemory"
+                resourceLimitCpu: "resourceLimitCpu"
+                resourceLimitMemory: "resourceLimitMemory"
+            imagePullSecrets:
+              - name: "imagePullSecrets"
+
+            envVars:
+              - envVar:
+                  key: "FOO"
+                  value: "BAR"
+
+          - name: "k8s-slave"
+            namespace: "default"
+            label: "linux-x86_64"
+            nodeUsageMode: EXCLUSIVE
+            containers:
+              - name: "jnlp"
+                image: "jenkinsci/jnlp-slave:latest"
+                alwaysPullImage: true
+                workingDir: "/home/jenkins"
+                ttyEnabled: true
+                resourceRequestCpu: "500m"
+                resourceLimitCpu: "1000m"
+                resourceRequestMemory: "1Gi"
+                resourceLimitMemory: "2Gi"
+            volumes:
+              - emptyDirVolume:
+                  memory: false
+                  mountPath: "/tmp"
+            idleMinutes: "1"
+            activeDeadlineSeconds: "120"
+            slaveConnectTimeout: "1000"
