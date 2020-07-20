@@ -4,13 +4,24 @@ source /tmp/provisioning/config.sh
 
 MINIKUBE_URL=$(grep server /root/.kube/config | cut -f 2,3,4 -d ':')
 KUBE_CONFIG_BYTES=$(cat /root/.kube/config | base64 -w 0)
-JENKINS_URL=http://localhost:8080
+
+minikube_ip=$(echo $MINIKUBE_URL | grep -Eo '([0-9]{1,3}[.]){3}[0-9]{1,3}')
+JENKINS_URL=http://$(echo $minikube_ip | cut -f1,2,3 -d '.').1:8080
 
 if [[ ! -d $JCASC_FOLDER ]]; then
     mkdir -p $JCASC_FOLDER
 fi
 
 chmod -R 755 ~/.minikube
+
+echo -e "jenkins:
+  slaveAgentPort: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: admin
+         password: 123456" > ${JCASC_FOLDER}/jenkins.yaml
 
 echo -e "unclassified:
   location:
@@ -19,13 +30,12 @@ echo -e "unclassified:
 jenkins:
   clouds:
     - kubernetes:
-        name: advanced-k8s-config
+        name: kubernetes
         serverUrl:${MINIKUBE_URL}
         skipTlsVerify: true
         credentialsId: kubernetes-credentials
         namespace: default
         jenkinsUrl: ${JENKINS_URL}
-        jenkinsTunnel: jenkinsTunnel
         containerCapStr: 42
         maxRequestsPerHostStr: 64
         retentionTimeout: 5
@@ -61,7 +71,7 @@ jenkins:
 
           #   envVars:
           #     - envVar:
-          #         key: FOO
+          #         key: FOO    
           #         value: BAR
 
           - name: k8s-slave
