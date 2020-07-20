@@ -12,6 +12,6 @@ get_binary minikube $MINIKUBE_DOWNLOAD_URL $BIN_DIR
 
 ${BIN_DIR}/minikube start --force
 
-echo "============MINICUBE DETAILS==============" >> $OUTPUT_FILE
+echo "============MINIKUBE DETAILS==============" >> $OUTPUT_FILE
 
-kubectl cluster-status >> $OUTPUT_FILE
+${BIN_DIR}/kubectl cluster-info >> $OUTPUT_FILE
